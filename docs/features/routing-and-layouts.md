@@ -142,7 +142,8 @@ It lives under `pages/storefront/` by folder, but is not part of the storefront 
 - No nested admin sub-navigation beyond the products link.
 - No auth redirect "return to intended page" behavior — the guard always sends you to
   `/admin/login`, then login always goes to `/admin/products`.
-- No automated tests (the project has no test suite by design).
+- Route selection, storefront/admin layout rendering, admin redirects, and the standalone 404 are
+  covered by `src/routes/AppRoutes.test.tsx`.
 
 ## Possible future extensions (not implemented)
 

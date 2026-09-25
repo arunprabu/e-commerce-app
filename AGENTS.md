@@ -54,9 +54,14 @@ patterns, and conventions rather than inventing new ones.
 - `npm run build` — `tsc -b && vite build` (type-check then build)
 - `npm run lint` — ESLint over the whole repo
 - `npm run preview` — preview a production build
+- `npm test` — run unit + integration tests (Vitest)
+- `npm run test:watch` — Vitest in watch mode
+- `npm run test:coverage` — Vitest with a v8 coverage report
+- `npm run test:e2e` — run end-to-end tests (Playwright)
 
 Always run `npm run build` (or at least `npm run lint`) after non-trivial changes and fix
-any errors before considering a task done.
+any errors before considering a task done. Run `npm test` when you change `lib/`, `store/`,
+`hooks/`, or page behavior.
 
 ## Project structure
 
@@ -98,7 +103,18 @@ rest.key` instead.
 - **Checkout is intentionally minimal** — no shipping/payment form, just an order summary
   and a "Place order" button.
 - Categories are derived client-side from the product list, not a separate API call.
-- No automated test suite exists, per project scope.
+- No CI pipeline exists — tests run locally only.
+
+## Testing
+
+- **Unit + integration**: Vitest + React Testing Library + jsdom, configured in the `test` block
+  of `vite.config.ts`. Tests are colocated with source as `src/**/*.{test,spec}.{ts,tsx}`.
+- **API mocking**: MSW intercepts `fetch` so `api/` and `useProducts` are exercised through their
+  real code path. Shared helpers live in `src/test/` (`setup.ts`, `render.tsx`, `msw/`).
+- **End-to-end**: Playwright specs in `e2e/`, run against a `vite preview` build that Playwright
+  starts automatically (`playwright.config.ts`). Run `npx playwright install` once for browsers.
+- When adding tests, colocate unit/integration tests next to the code under test and keep e2e
+  specs in `e2e/`. Prefer MSW over mocking `api/products.ts` internals.
 
 ## Known gotcha
 
@@ -140,7 +156,7 @@ This repo is committed, pushed, and PR'd/merged using the personal GitHub accoun
 ## Don't
 
 - Don't add a real backend, database, or payment integration unless explicitly requested.
-- Don't add automated tests/CI unless explicitly requested (none exist today by design).
+- Don't add CI/CD unless explicitly requested (tests exist but are not wired into CI).
 - Don't rename "ShopEasy" or restructure `src/` without being asked — it's a placeholder
   brand name but changing it is a deliberate, explicit task.
 - Don't touch `.env.dev`, `.env.stage`, `.env.prod`, or `.env.test` (see above).

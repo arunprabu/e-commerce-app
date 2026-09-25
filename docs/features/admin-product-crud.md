@@ -146,7 +146,9 @@ the delete logic and state.
 - No image upload — image is a URL string only.
 - No slug/SKU, stock, or inventory fields.
 - No undo for deletes.
-- No automated tests (the project has no test suite by design).
+- The admin list, search, form validation, create, edit, delete, and unknown-edit UI flows are
+  covered by `src/pages/admin/AdminProductCrud.test.tsx`; the overlay store is covered by
+  `src/store/productOverlayStore.test.ts`.
 
 ## Possible future extensions (not implemented)
 

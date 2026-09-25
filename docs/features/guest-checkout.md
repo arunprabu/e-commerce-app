@@ -125,7 +125,9 @@ function handlePlaceOrder() {
 - No account creation, login, or guest-vs-registered distinction.
 - No shipping/contact/payment form or payment processing.
 - No server call, no order persistence, no order history.
-- No automated tests (the project has no test suite by design).
+- Checkout and confirmation UI flows are covered by
+  `src/pages/storefront/GuestCheckout.test.tsx`; the cart logic they depend on is covered by
+  `src/lib/cart.test.ts` and `src/store/cartStore.test.ts`.
 
 ## Possible future extensions (not implemented)
 

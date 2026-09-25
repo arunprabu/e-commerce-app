@@ -98,7 +98,9 @@ It wraps the nested `/admin` route in `AppRoutes`, so the guard applies to the w
 - No user accounts, roles, or permissions.
 - No password hashing or storage.
 - No "remember me", password reset, or rate limiting.
-- No automated tests (the project has no test suite by design).
+- Login, protected-route, redirect, and logout flows are covered by
+  `src/routes/AppRoutes.test.tsx`; the mock auth store is covered by
+  `src/store/authStore.test.ts`.
 
 ## Possible future extensions (not implemented)
 

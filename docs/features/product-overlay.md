@@ -150,7 +150,8 @@ is what keeps added products addressable for later edit/delete.
 - No backend, database, or sync — localStorage only, by design.
 - No conflict resolution, versioning, or multi-user merge.
 - No reset/export UI.
-- No automated tests (the project has no test suite by design).
+- Covered by `src/lib/products.test.ts` (merge logic) and
+  `src/store/productOverlayStore.test.ts` (store actions).
 
 ## Possible future extensions (not implemented)
 

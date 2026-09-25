@@ -161,7 +161,8 @@ export interface Product {
 - No product reviews, wishlists, or related-product recommendations.
 - No account/login for shoppers; every shopper is a guest.
 - No server-side rendering or data caching layer (React Query/SWR) — a single fetch on mount.
-- No automated tests (the project has no test suite by design).
+- Covered by `src/hooks/useProducts.test.tsx` (data + overlay merge) and
+  `src/pages/storefront/HomePage.test.tsx` (render + search), plus `e2e/storefront.spec.ts`.
 
 ## Possible future extensions (not implemented)
 

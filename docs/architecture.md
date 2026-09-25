@@ -21,6 +21,7 @@ localStorage. This document is the entry point: it ties together the per-feature
 | Icons      | lucide-react                                            |
 | Toasts     | sonner (`Toaster` mounted in `App.tsx`)                 |
 | Lint       | ESLint 10 + typescript-eslint                           |
+| Tests      | Vitest + React Testing Library + MSW; Playwright (e2e)  |
 
 Exact resolved versions, config files, and scripts: [Tech stack & tooling](./tech-stack.md).
 
@@ -106,7 +107,11 @@ src/
     admin/       AdminLogin, AdminProducts, AdminProductForm
   routes/      AppRoutes (route table), RequireAdminAuth (guard)
   types/       Product, CartItem, Order
+  test/        shared test helpers: setup.ts, render.tsx, msw/ (handlers + server)
+e2e/           Playwright end-to-end specs
 ```
+
+Unit/integration tests are colocated with source as `src/**/*.{test,spec}.{ts,tsx}`.
 
 ## Routing
 
@@ -144,14 +149,25 @@ Full route table: [Routing & layouts](./features/routing-and-layouts.md).
 
 ## Commands
 
-| Command           | Purpose                                        |
-| ----------------- | ---------------------------------------------- |
-| `npm run dev`     | Vite dev server                                |
-| `npm run build`   | `tsc -b && vite build` (type-check then build) |
-| `npm run lint`    | ESLint over the repo                           |
-| `npm run preview` | Preview a production build                     |
+| Command            | Purpose                                        |
+| ------------------ | ---------------------------------------------- |
+| `npm run dev`      | Vite dev server                                |
+| `npm run build`    | `tsc -b && vite build` (type-check then build) |
+| `npm run lint`     | ESLint over the repo                           |
+| `npm run preview`  | Preview a production build                     |
+| `npm test`         | Vitest unit + integration tests                |
+| `npm run test:e2e` | Playwright end-to-end tests                    |
 
 Run `npm run build` (or at least `npm run lint`) after non-trivial changes.
+
+## Testing
+
+- **Unit + integration**: Vitest + React Testing Library + jsdom, configured in the `test` block
+  of `vite.config.ts`. Tests are colocated as `src/**/*.{test,spec}.{ts,tsx}`.
+- **API mocking**: MSW intercepts `fetch` so `api/` and `useProducts` are exercised through their
+  real code path. Shared helpers live in `src/test/` (`setup.ts`, `render.tsx`, `msw/`).
+- **End-to-end**: Playwright specs in `e2e/`, run against a `vite preview` build that Playwright
+  starts automatically (`playwright.config.ts`).
 
 ## Constraints / non-goals
 
@@ -159,7 +175,7 @@ Deliberate, per `AGENTS.md` — don't "fix" these without being asked:
 
 - No real backend, database, or payment integration.
 - No real authentication or security boundary.
-- No automated tests or CI (none exist by design).
+- No CI/CD pipeline (tests exist but are not wired into CI).
 - No server-side rendering, data-caching layer, or route code splitting.
 
 ## Environment files

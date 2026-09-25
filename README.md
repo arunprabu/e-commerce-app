@@ -23,12 +23,28 @@ npm run dev
 
 Build for production with `npm run build`.
 
+## Testing
+
+```bash
+npm test              # unit + integration tests (Vitest)
+npm run test:watch    # watch mode
+npm run test:coverage # coverage report
+npm run test:e2e      # end-to-end tests (Playwright)
+```
+
+- **Unit + integration** use Vitest + React Testing Library + jsdom, configured in the `test`
+  block of `vite.config.ts`. Tests are colocated with source as `src/**/*.{test,spec}.{ts,tsx}`.
+- **API mocking** uses MSW, which intercepts `fetch` so `api/` and `useProducts` run through their
+  real code path. Shared helpers live in `src/test/`.
+- **End-to-end** tests use Playwright (`e2e/`), running against a `vite preview` build that
+  Playwright starts automatically. Run `npx playwright install` once to fetch browser binaries.
+
 ## Key decisions
 
 - **fakestoreapi doesn't persist writes.** `POST`/`PUT`/`DELETE` calls are still made to the API, but since it never actually saves changes server-side, admin add/edit/delete actions are also stored in a `localStorage` overlay (`src/store/productOverlayStore.ts`) and merged over the base API data (`src/lib/products.ts`) so changes survive a page refresh in this browser.
 - **Admin auth is a client-side mock** (`src/store/authStore.ts`) — there is no real backend, so this is not a real security boundary.
 - **Checkout is intentionally minimal** — no shipping form or payment fields, just an order summary and a "Place order" button that generates a mock order ID.
-- No automated tests, per project scope.
+- **No CI pipeline** — tests exist and run locally, but are not wired into CI.
 
 ## Engineering principles
 

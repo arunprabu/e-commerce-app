@@ -135,7 +135,7 @@ Persistence means the badge and cart contents are restored on reload without any
 - No stock/inventory checks, quantity caps, or per-product limits.
 - No coupons, promotions, taxes, or shipping costs — the total is a plain sum.
 - No save-for-later, wishlist, or recently-viewed.
-- No automated tests (the project has no test suite by design).
+- Covered by `src/lib/cart.test.ts` (count/total) and `src/store/cartStore.test.ts` (actions).
 
 ## Possible future extensions (not implemented)
 

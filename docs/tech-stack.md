@@ -133,20 +133,41 @@ Notable:
 
 ## Scripts
 
-| Script    | Command                | Purpose                             |
-| --------- | ---------------------- | ----------------------------------- |
-| `dev`     | `vite`                 | Start the dev server                |
-| `build`   | `tsc -b && vite build` | Type-check all projects, then build |
-| `lint`    | `eslint .`             | Lint the whole repo                 |
-| `preview` | `vite preview`         | Serve a production build locally    |
+| Script          | Command                 | Purpose                             |
+| --------------- | ----------------------- | ----------------------------------- |
+| `dev`           | `vite`                  | Start the dev server                |
+| `build`         | `tsc -b && vite build`  | Type-check all projects, then build |
+| `lint`          | `eslint .`              | Lint the whole repo                 |
+| `preview`       | `vite preview`          | Serve a production build locally    |
+| `test`          | `vitest run`            | Run unit + integration tests once   |
+| `test:watch`    | `vitest`                | Run tests in watch mode             |
+| `test:coverage` | `vitest run --coverage` | Run tests with a v8 coverage report |
+| `test:e2e`      | `playwright test`       | Run Playwright e2e tests            |
+| `test:e2e:ui`   | `playwright test --ui`  | Run e2e tests in Playwright's UI    |
 
 Run `npm run build` (or at least `npm run lint`) after non-trivial changes.
+
+## Testing
+
+| Layer              | Tooling                                                               |
+| ------------------ | --------------------------------------------------------------------- |
+| Unit + integration | Vitest 5 + React Testing Library + jsdom                              |
+| API mocking        | MSW (Mock Service Worker) — intercepts `fetch` at the network layer   |
+| Coverage           | `@vitest/coverage-v8`                                                 |
+| End-to-end         | Playwright (Chromium, Firefox, WebKit) against a `vite preview` build |
+
+- Vitest config lives in the `test` block of `vite.config.ts` (single config file, reuses the
+  `@/*` alias and Vite transform pipeline).
+- Unit/integration tests are colocated with source as `src/**/*.{test,spec}.{ts,tsx}`.
+- Shared test helpers live in `src/test/` (`setup.ts`, `render.tsx`, `msw/`).
+- E2E specs live in `e2e/` and are driven by `playwright.config.ts`, which builds and serves the
+  app automatically via its `webServer` block.
+- `npm run test:e2e` requires browser binaries: run `npx playwright install` once.
 
 ## Not present (by design)
 
 Per `AGENTS.md`, this is a training/demo project — the following are deliberately absent:
 
-- No test runner or test framework (no Vitest, Jest, Playwright, Testing Library).
 - No CI/CD configuration.
 - No formatter config (no Prettier / Biome) — ESLint only.
 - No backend, database, or payment SDK.

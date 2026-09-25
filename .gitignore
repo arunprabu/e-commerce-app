@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Test artifacts
+coverage
+playwright-report
+test-results
+blob-report
+.playwright
+
 # Environment files - never commit real secrets, .env.example is the only tracked template
 .env
 .env.*
