@@ -30,6 +30,31 @@ Build for production with `npm run build`.
 - **Checkout is intentionally minimal** — no shipping form or payment fields, just an order summary and a "Place order" button that generates a mock order ID.
 - No automated tests, per project scope.
 
+## Engineering principles
+
+This project is maintained to a production-ready standard. Every change should follow the
+existing architecture, patterns, and conventions, and be organized so the codebase stays easy to
+maintain.
+
+- **Follow the established architecture.** Respect the layering already in place: `api/`
+  (transport) → `lib/` (pure domain logic) → `hooks/` (React data access) → `store/` (client
+  state) → `components/` + `pages/` (presentation). Don't bypass a layer — e.g. never call the API
+  client directly from a page; go through `useProducts`.
+- **Reuse before you build.** Prefer existing stores, hooks, helpers, and shadcn/ui primitives over
+  new ones. Introduce a new abstraction only when there's a concrete, present need.
+- **Apply the right design pattern deliberately.** Match the pattern already used for the problem
+  (zustand `persist` for durable client state, an overlay/merge strategy for non-persisting APIs, a
+  route guard component for auth). If a better pattern is warranted, explain the trade-off first.
+- **Keep it type-safe and strict.** Honor `verbatimModuleSyntax` (`import type` for types),
+  `noUnusedLocals`/`noUnusedParameters`, and the `@/*` path alias. Avoid `any`.
+- **Organize for maintainability.** Put code where its responsibility belongs, keep modules small
+  and single-purpose, name things clearly, and avoid duplication. Update the matching `docs/` page
+  when behavior or architecture changes.
+- **Validate before you're done.** Run `npm run build` (or at least `npm run lint`) after
+  non-trivial changes and fix all errors.
+- **Stay in scope.** Make the smallest change that fully solves the task; don't refactor unrelated
+  code or add unrequested features, tests, or dependencies.
+
 ## Project structure
 
 ```

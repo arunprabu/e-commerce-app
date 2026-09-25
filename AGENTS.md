@@ -9,6 +9,34 @@ checkout) plus a mock admin panel (login, product CRUD), backed by the public
 [Fake Store API](https://fakestoreapi.com/products). It's a training/course project, not a
 production system — there is no real backend, no real auth, and no payment processing.
 
+## Engineering principles (apply to every change)
+
+Every change you make must be **production-ready** and easy to maintain. Before writing code,
+read the surrounding code and the relevant `docs/` page, then follow the existing architecture,
+patterns, and conventions rather than inventing new ones.
+
+- **Follow the established architecture.** Respect the layering already in place: `api/` (transport)
+  → `lib/` (pure domain logic) → `hooks/` (React data access) → `store/` (client state) →
+  `components/` + `pages/` (presentation). Don't bypass a layer (e.g. never call the API client
+  directly from a page — go through `useProducts`).
+- **Reuse before you build.** Prefer existing stores, hooks, helpers, and shadcn/ui primitives over
+  new ones. Only introduce a new abstraction when there's a concrete, present need — not a
+  speculative one.
+- **Apply the right design pattern deliberately.** Match the pattern already used for the problem
+  (e.g. zustand `persist` for durable client state, an overlay/merge strategy for non-persisting
+  APIs, a route guard component for auth). If a genuinely better pattern is warranted, explain the
+  trade-off before adopting it.
+- **Keep it type-safe and strict.** Honor `verbatimModuleSyntax` (`import type` for types),
+  `noUnusedLocals`/`noUnusedParameters`, and the `@/*` path alias. No `any` unless unavoidable and
+  justified.
+- **Organize for maintainability.** Put code where its responsibility belongs, keep modules small
+  and single-purpose, name things clearly, and avoid duplication. Update the matching `docs/`
+  page when behavior or architecture changes.
+- **Validate before you're done.** Run `npm run build` (or at least `npm run lint`) after
+  non-trivial changes and fix all errors. Don't leave the tree in a broken state.
+- **Stay in scope.** Make the smallest change that fully solves the task; don't refactor unrelated
+  code or add unrequested features, tests, or dependencies.
+
 ## Tech stack
 
 - **Build tool**: Vite 8
