@@ -37,6 +37,12 @@ patterns, and conventions rather than inventing new ones.
 - **Stay in scope.** Make the smallest change that fully solves the task; don't refactor unrelated
   code or add unrequested features, tests, or dependencies.
 
+## Workflow
+
+- **Always create a branch first.** Before implementing any change, create and switch to a new
+  branch (e.g. `git checkout -b feat/<short-desc>`, `fix/<short-desc>`, `docs/<short-desc>`) and do
+  all the work there. Never commit directly to the default branch (`master`).
+
 ## Tech stack
 
 - **Build tool**: Vite 8
