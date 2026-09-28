@@ -18,7 +18,8 @@ export default defineConfig({
     css: false,
     // Only unit/integration tests live under src/. Playwright owns e2e/.
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
-    exclude: ["node_modules", "dist", "e2e"],
+    // shadcn/ui primitives are vendored third-party code - we don't test them.
+    exclude: ["node_modules", "dist", "e2e", "src/components/ui/**"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "lcov"],

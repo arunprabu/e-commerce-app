@@ -115,6 +115,9 @@ rest.key` instead.
   starts automatically (`playwright.config.ts`). Run `npx playwright install` once for browsers.
 - When adding tests, colocate unit/integration tests next to the code under test and keep e2e
   specs in `e2e/`. Prefer MSW over mocking `api/products.ts` internals.
+- **Don't write tests for shadcn/ui primitives** (`src/components/ui/**`). They're vendored
+  third-party code; that path is excluded from both the Vitest run and coverage in
+  `vite.config.ts`. Test the app code that uses them instead.
 
 ## Known gotcha
 
